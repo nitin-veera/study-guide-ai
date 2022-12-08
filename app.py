@@ -32,6 +32,9 @@ def generate_prompt(notes):
 
 
 def format_guide(result):
+    
+    if result is None:
+        return result
     # add a newline after every question
     formatted_guide = result.replace("?", "?\n")
     # create an array of questions
