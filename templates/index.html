@@ -13,8 +13,8 @@
     <textarea name="notes" rows="5" placeholder="Paste your notes" required></textarea>
     <input type="submit" value="Generate study guide" />
   </form>
-  {% if result %}
-  <div class="result"> {% for question in result %}
+  {% if questions %}
+  <div class="questions"> {% for question in questions %}
     <p>{{question}}</p>
     {% endfor %}
   </div>

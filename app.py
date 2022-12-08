@@ -17,10 +17,10 @@ def index():
             temperature=0.5,
             max_tokens=2048,
         )
-        return redirect(url_for("index", result=response.choices[0].text))
+        return redirect(url_for("index", questions=response.choices[0].text))
 
-    result = request.args.get("result")
-    return render_template("index.html", result=format_guide(result))
+    questions = request.args.get("questions")
+    return render_template("index.html", questions=format_guide(questions))
 
 
 def generate_prompt(notes):
@@ -31,12 +31,12 @@ def generate_prompt(notes):
     )
 
 
-def format_guide(result):
+def format_guide(questions):
     
-    if result is None:
-        return result
+    if questions is None:
+        return questions
     # add a newline after every question
-    formatted_guide = result.replace("?", "?\n")
+    formatted_guide = questions.replace("?", "?\n")
     # create an array of questions
     formatted_guide = formatted_guide.split("\n")
 
