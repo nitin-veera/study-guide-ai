@@ -9,13 +9,18 @@
 <body>
   <img src="{{ url_for('static', filename='book-solid.svg') }}" class="icon" />
   <h3>studyguide.ai</h3>
-  <form action="/" method="post">
+  <form action="/create-guide" method="post">
     <textarea name="notes" rows="5" placeholder="Paste your notes" required></textarea>
-    <input type="submit" value="Generate study guide" />
+    <input type="text" name="guide-name" class="guide-name" placeholder="Give it a name!" required></input>
+    <input type="submit" class="create" value="Create study guide" />
   </form>
-  {% if questions %}
-  <div class="questions"> {% for question in questions %}
-    <p>{{question}}</p>
+  {% if guides %}
+  <div class="guides"> {% for guide in guides %}
+    <p>{{guide.name}}</p>
+    <p>{{guide.questions}}</p>
+    <!-- <form action="/add-questions/{{guide.id}}" method="post">
+      <input type="submit" class="add-questions" value="Add more questions" />
+    </form> -->
     {% endfor %}
   </div>
   {% endif %}

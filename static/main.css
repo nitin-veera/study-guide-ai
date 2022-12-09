@@ -59,7 +59,14 @@ textarea {
   opacity: 1;
 }
 
-input {
+.guide-name {
+  padding: 12px 16px;
+  border: 1px solid #2774AE;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+.create {
   padding: 12px 0;
   color: #fff;
   background-color: #2774AE;
@@ -69,7 +76,7 @@ input {
   cursor: pointer;
 }
 
-.questions {
+.guides {
   font-weight: bold;
   margin-top: 40px;
   margin-left: 100px;
