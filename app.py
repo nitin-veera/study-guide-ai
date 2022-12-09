@@ -21,7 +21,7 @@ def index():
 
     questions = request.args.get("questions")
     return render_template("index.html", questions=format_guide(questions))
-
+    
 
 def generate_prompt(notes):
     return """Create practice questions from the following notes: {}.
