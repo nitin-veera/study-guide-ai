@@ -23,6 +23,24 @@ def generate_prompt(notes):
         notes
     )
 
+# generates questions for the study guide
+def generate_questions(notes):
+    questions = ""
+    notes = notes
+    
+    while (len(notes) > 500):
+        response = openai.Completion.create(
+                model="text-davinci-002",
+                prompt=generate_prompt(notes[:500]),
+                temperature=0.5,
+                max_tokens=2048,
+            )
+        questions += response.choices[0].text
+        notes = notes[500:]
+        
+    return questions
+
+
 # def generate_add_prompt(notes,)
 
 # creates an array of questions
@@ -53,13 +71,8 @@ def create_guide():
     if request.method == "POST":
         notes = request.form["notes"]
         name = request.form["guide-name"]
-        response = openai.Completion.create(
-            model="text-davinci-002",
-            prompt=generate_prompt(notes),
-            temperature=0.5,
-            max_tokens=2048,
-        )
-        guide = StudyGuideModel(name=name, notes=notes, questions=response.choices[0].text)
+        questions = generate_questions(notes)
+        guide = StudyGuideModel(name=name, notes=notes, questions=questions)
         db.session.add(guide)
         db.session.commit()
 
