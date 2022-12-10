@@ -19,7 +19,7 @@ db.init_app(app)
 def generate_prompt(notes):
     return """Ask me a single practice question from the following notes: {}.
     
-    Question: """.format(
+    """.format(
         notes
     )
 

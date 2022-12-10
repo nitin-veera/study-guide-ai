@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
-<head>
+<head lang="en">
+  <meta charset="utf-8">
+
   <title>studyguide.ai</title>
   <link rel="shortcut icon" href="{{ url_for('static', filename='book-solid.svg') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
@@ -15,8 +17,10 @@
     <input type="number" name="number-questions" class="guide-name" placeholder="Number of questions" required></input>
     <input type="submit" class="create" value="Create study guide" />
   </form>
+
   {% if guides %}
-  <div class="guides"> {% for guide in guides %}
+  <div class="guides">
+    {% for guide in guides %}
     <p>{{guide.name}}</p>
     <p>{{guide.questions}}</p>
     {% endfor %}
