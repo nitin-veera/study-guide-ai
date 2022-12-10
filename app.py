@@ -9,7 +9,7 @@ from models import db, StudyGuideModel
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
@@ -17,31 +17,30 @@ db.init_app(app)
 
 # creates the prompt for when the user initally uploads notes
 def generate_prompt(notes):
-    return """Create practice questions from the following notes: {}.
+    return """Ask me a single practice question from the following notes: {}.
     
-    Questions: """.format(
+    Question: """.format(
         notes
     )
 
 # generates questions for the study guide
-def generate_questions(notes):
+def generate_questions(notes, num_questions):
     questions = ""
     notes = notes
+    num_questions = int(num_questions)
+    block_size = round(len(notes) / num_questions)
     
-    while (len(notes) > 500):
+    while (len(notes) > 0):
         response = openai.Completion.create(
                 model="text-davinci-002",
-                prompt=generate_prompt(notes[:500]),
+                prompt=generate_prompt(notes[:block_size]),
                 temperature=0.5,
                 max_tokens=2048,
             )
         questions += response.choices[0].text
-        notes = notes[500:]
-        
+        notes = notes[block_size:]
+
     return questions
-
-
-# def generate_add_prompt(notes,)
 
 # creates an array of questions
 def format_guide(questions):
@@ -71,22 +70,10 @@ def create_guide():
     if request.method == "POST":
         notes = request.form["notes"]
         name = request.form["guide-name"]
-        questions = generate_questions(notes)
+        number_questions = request.form["number-questions"]
+        questions = generate_questions(notes, number_questions)
         guide = StudyGuideModel(name=name, notes=notes, questions=questions)
         db.session.add(guide)
         db.session.commit()
 
         return redirect('/')
-
-# @app.route("/add-questions/<string:id>", methods=(["POST"]))
-# def add_questions(id):
-#     guide = StudyGuideModel.query.filter_by(id=id).first()
-#     if request.method == "POST":
-#         # response = openai.Completion.create(
-#         #     model="text-davinci-002",
-#         #     prompt=generate_prompt(),
-#         #     temperature=0.5,
-#         #     max_tokens=2048,
-#         # )
-
-#         return redirect('/')

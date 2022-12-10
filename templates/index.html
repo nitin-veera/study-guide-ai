@@ -12,15 +12,13 @@
   <form action="/create-guide" method="post">
     <textarea name="notes" rows="5" placeholder="Paste your notes" required></textarea>
     <input type="text" name="guide-name" class="guide-name" placeholder="Give it a name!" required></input>
+    <input type="number" name="number-questions" class="guide-name" placeholder="Number of questions" required></input>
     <input type="submit" class="create" value="Create study guide" />
   </form>
   {% if guides %}
   <div class="guides"> {% for guide in guides %}
     <p>{{guide.name}}</p>
     <p>{{guide.questions}}</p>
-    <!-- <form action="/add-questions/{{guide.id}}" method="post">
-      <input type="submit" class="add-questions" value="Add more questions" />
-    </form> -->
     {% endfor %}
   </div>
   {% endif %}
